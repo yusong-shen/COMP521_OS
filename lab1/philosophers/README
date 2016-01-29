@@ -1,0 +1,19 @@
+This directory contains an example of how to write code using Mesa
+monitors for COMP 421.  The program here is a solution to the Dining
+Philosophers problem.  The file "philmain.c" is the main program for
+everything, and the file "philosopher.c" is the monitor that
+implements the code for picking up and putting down forks.
+
+The file "philosopher" itself is the runnable program, which prints
+out when each philosopher is eating and thinking.  When you run it,
+you should see a fair division of times that each philosopher gets
+to eat.  You may notice, though, that one philosopher may get to
+eat several times in a row before another competing philosopher
+may get a turn.  This is due to when Unix decides to do a context
+switch between the different philosopher threads.  A philosopher
+gets to run for a while before Unix happens to cause a context
+switch.  This is OK, since it still obeys the rule that each
+process executes at non-zero speed, and that you can't assume
+anything about the relative running speed of the different threads.
+The number of times that each philosopher gets to eat should about
+even out if you let it run long enough.
