@@ -1,8 +1,8 @@
 // montty.c
 
 #include <stdio.h>
-#include <thread.h>
-
+#include <threads.h>
+#include <terminals.h>
 
 // Interrupt Handlers
 void ReceiveInterrupt(int term);
