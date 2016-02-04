@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <threads.h>
 #include <terminals.h>
+#include <hardware.h>
 
 // Interrupt Handlers
 void ReceiveInterrupt(int term);
@@ -27,6 +28,7 @@ int InitTerminalDriver();
 
 // Implementation
 int InitTerminal(int term){
+	InitHardware();
 	return 0;
 }
 
