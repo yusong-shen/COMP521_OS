@@ -13,8 +13,10 @@ int main(int argc, char **argv)
     InitTerminalDriver();
     InitTerminal(1);
 
-    if (argc > 1) HardwareOutputSpeed(1, atoi(argv[1]));
-    if (argc > 2) HardwareInputSpeed(1, atoi(argv[2]));
+    //   if (argc > 1) HardwareOutputSpeed(1, atoi(argv[1]));
+    //  if (argc > 2) HardwareInputSpeed(1, atoi(argv[2]));
+    // HardwareOutputSpeed(1, 100);
+    HardwareInputSpeed(1, 2000);
 
     ThreadCreate(writer, NULL);
 

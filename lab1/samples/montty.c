@@ -5,6 +5,8 @@
 #include <terminals.h>
 #include <hardware.h>
 
+// buffer for echo with size 512
+static char echo_buffer[512];
 
 // Implementation
 // Interrupt Handlers -- Bottom Half
@@ -17,7 +19,9 @@
 // by your device driver from the input data register using the 
 // ReadDataRegister() operation.
 void ReceiveInterrupt(int term){
-
+  char ch = ReadDataRegister(term);
+  echo_buffer[0] = ch;
+  WriteDataRegister(term, ch);
 }
 
 // This procedure is called by the hardware once for each character 
@@ -30,7 +34,8 @@ void ReceiveInterrupt(int term){
 // corresponding transmit interrupt and your TransmitInterrupt() 
 // procedure is called with this same terminal number.
 void TransmitInterrupt(int term){
-
+  char ch = echo_buffer[0];
+  WriteDataRegister(term, ch);
 }
 
 
@@ -42,7 +47,12 @@ void TransmitInterrupt(int term){
  * error. Writes to terminal term.
  */
 int WriteTerminal(int term, char *buf, int buflen){
-	return 0;
+  int i;
+  for (i=0; i<buflen; i++){
+    WriteDataRegister(term, *(buf+i));
+  }
+
+  return 0;
 
 }
 
@@ -63,8 +73,7 @@ int ReadTerminal(int term, char *buf, int buflen){
 // call to the terminal device driver procedures defined above are 
 // called for terminal term.
 int InitTerminal(int term){
-	InitHardware(term);
-	return 0;
+	return	InitHardware(term);
 
 }
 
