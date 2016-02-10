@@ -1,4 +1,6 @@
 // montty.c
+// Mesa Style Monitor for terminal device driver
+// author : Yusong Shen
 
 #include <stdio.h>
 #include <threads.h>
@@ -18,7 +20,9 @@ static char echo_buffer[512];
 // The character that caused the interrupt should be read 
 // by your device driver from the input data register using the 
 // ReadDataRegister() operation.
+extern
 void ReceiveInterrupt(int term){
+	Declare_Monitor_Entry_Procedure();
   char ch = ReadDataRegister(term);
   echo_buffer[0] = ch;
   WriteDataRegister(term, ch);
@@ -33,7 +37,10 @@ void ReceiveInterrupt(int term){
 // the transmission of that character until you receive the 
 // corresponding transmit interrupt and your TransmitInterrupt() 
 // procedure is called with this same terminal number.
+extern
 void TransmitInterrupt(int term){
+	Declare_Monitor_Entry_Procedure();
+
   char ch = echo_buffer[0];
   WriteDataRegister(term, ch);
 }
@@ -46,7 +53,9 @@ void TransmitInterrupt(int term){
  * are displayed.  Returns the number of characters written or -1 for 
  * error. Writes to terminal term.
  */
+extern
 int WriteTerminal(int term, char *buf, int buflen){
+	Declare_Monitor_Entry_Procedure();
   int i;
   for (i=0; i<buflen; i++){
     WriteDataRegister(term, *(buf+i));
@@ -64,7 +73,9 @@ int WriteTerminal(int term, char *buf, int buflen){
  * added onto the end of the buffer by this call.  Reads from
  * terminal term.
  */
+extern
 int ReadTerminal(int term, char *buf, int buflen){
+	Declare_Monitor_Entry_Procedure();	
 	return 0;
 
 }
@@ -72,7 +83,9 @@ int ReadTerminal(int term, char *buf, int buflen){
 // This procedure should be called once and only once, before any other 
 // call to the terminal device driver procedures defined above are 
 // called for terminal term.
+extern
 int InitTerminal(int term){
+	Declare_Monitor_Entry_Procedure();
 	return	InitHardware(term);
 
 }
@@ -80,7 +93,10 @@ int InitTerminal(int term){
 
 // This procedure returns a consistent snapshot of the I/O statistics for 
 // all terminals all at once.
+extern
 int TerminalDriverStatistics(struct termstat *stats){
+	Declare_Monitor_Entry_Procedure();
+
 	return 0;
 
 }
@@ -91,7 +107,9 @@ int TerminalDriverStatistics(struct termstat *stats){
  * Initializes the terminal driver itself, not any particular
  * terminal.  Returns 0 if OK, or -1 for any error.
  */
+extern
 int InitTerminalDriver(){
+	Declare_Monitor_Entry_Procedure();
 	return 0;
 
 }
